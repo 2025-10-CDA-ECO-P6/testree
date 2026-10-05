@@ -59,6 +59,12 @@ const COMMIT_MESSAGES = [
 
 const COMMIT_AUTHORS = ['Raph', 'Marie L.', 'Thomas D.', 'CI Bot']
 
+function pick<T>(items: readonly T[], rand: () => number): T {
+  const item = items[Math.floor(rand() * items.length)]
+  if (item === undefined) throw new Error('pick() appelé sur un tableau vide')
+  return item
+}
+
 function generateHash(rand: () => number): string {
   const chars = '0123456789abcdef'
   let h = ''
@@ -119,8 +125,8 @@ export function generateHeatmapData(
       for (let c = 0; c < count; c++) {
         commits.push({
           hash: generateHash(rand),
-          message: COMMIT_MESSAGES[Math.floor(rand() * COMMIT_MESSAGES.length)],
-          author: COMMIT_AUTHORS[Math.floor(rand() * COMMIT_AUTHORS.length)],
+          message: pick(COMMIT_MESSAGES, rand),
+          author: pick(COMMIT_AUTHORS, rand),
           date: `${dateStr}T${String(8 + Math.floor(rand() * 10)).padStart(2, '0')}:${String(Math.floor(rand() * 60)).padStart(2, '0')}:00`,
           filesChanged: 1 + Math.floor(rand() * 5),
         })

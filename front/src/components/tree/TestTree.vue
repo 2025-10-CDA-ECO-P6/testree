@@ -96,13 +96,13 @@ function centerRow(row: VfNode[], y: number) {
 
 function layoutNodes(vfNodes: VfNode[]) {
   aboveChildIds.clear()
-  if (vfNodes.length <= 1) {
-    if (vfNodes.length === 1) vfNodes[0].position = { x: 0, y: 0 }
+  const [parent, ...children] = vfNodes
+  if (!parent) return
+  if (children.length === 0) {
+    parent.position = { x: 0, y: 0 }
     return
   }
 
-  const parent = vfNodes[0]
-  const children = vfNodes.slice(1)
   const n = children.length
 
   if (n <= 3) {
@@ -126,13 +126,10 @@ function layoutNodes(vfNodes: VfNode[]) {
 // ── Skip : saute les modules à enfant unique ──────────────
 function resolveTarget(node: TreeNode): TreeNode {
   let target = node
-  while (
-    target.type === 'module' &&
-    target.children.length === 1 &&
-    target.children[0].type === 'module' &&
-    target.children[0].children.length > 0
-  ) {
-    target = target.children[0]
+  while (target.type === 'module' && target.children.length === 1) {
+    const onlyChild = target.children[0]
+    if (!onlyChild || onlyChild.type !== 'module' || onlyChild.children.length === 0) break
+    target = onlyChild
   }
   return target
 }
@@ -186,10 +183,10 @@ async function cascadeIn(nodeIds: string[], delay = 100) {
 
 /** Cascade out : cache des nœuds un par un en ordre inverse */
 async function cascadeOut(nodeIds: string[], delay = 80) {
-  for (let i = nodeIds.length - 1; i >= 0; i--) {
-    setNodeClass(nodeIds[i], 'node-exit')
+  for (const id of [...nodeIds].reverse()) {
+    setNodeClass(id, 'node-exit')
     edges.value = edges.value.map((e) =>
-      e.target === nodeIds[i]
+      e.target === id
         ? { ...e, style: { ...edgeStyle, opacity: '0', transition: 'opacity 0.2s ease' } }
         : e,
     )

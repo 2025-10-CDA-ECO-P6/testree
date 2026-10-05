@@ -24,18 +24,19 @@ const maxDuration = computed(() =>
 
 // ── Month labels ─────────────────────────────────────────────
 
+const MONTH_LABELS = ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec']
+
 const months = computed(() => {
   const labels: { label: string; index: number }[] = []
   let lastMonth = -1
 
-  for (let i = 0; i < activeDays.value.length; i++) {
-    const m = new Date(activeDays.value[i].date).getMonth()
+  activeDays.value.forEach((day, i) => {
+    const m = new Date(day.date).getMonth()
     if (m !== lastMonth) {
-      const names = ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec']
-      labels.push({ label: names[m], index: i })
+      labels.push({ label: MONTH_LABELS[m] ?? '', index: i })
       lastMonth = m
     }
-  }
+  })
 
   return labels
 })

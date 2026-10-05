@@ -40,9 +40,9 @@ export function useTreeNavigation(root: TreeNode) {
 
   // Retour au niveau parent (un cran en arrière)
   function goUp() {
-    const bc = breadcrumb.value
-    if (bc.length >= 2) {
-      currentNode.value = bc[bc.length - 2]
+    const parent = breadcrumb.value.at(-2)
+    if (parent) {
+      currentNode.value = parent
     }
   }
 

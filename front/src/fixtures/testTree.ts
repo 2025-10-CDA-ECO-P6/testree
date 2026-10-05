@@ -35,10 +35,10 @@ function computeConfidence(
   flaky: boolean,
   lastAtsModif?: string,
 ): ConfidenceLevel {
-  if (runs.length === 0) return 'orange'
-
   const recent = runs.slice(0, 5) // les 5 derniers, triés du plus récent au plus ancien
-  const lastStatus = recent[0].status
+  const lastRun = recent[0]
+  if (!lastRun) return 'orange'
+  const lastStatus = lastRun.status
 
   if (lastStatus === 'PASS') return 'green'
   if (lastStatus === 'SKIP') return 'orange'

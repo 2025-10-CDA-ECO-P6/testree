@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import type { TreeNode, ScriptStatus } from '@/fixtures/testTree'
-import type { HeatmapDay, GitlabCommit } from '@/fixtures/heatmapData'
+import type { HeatmapDay } from '@/fixtures/heatmapData'
 import { getHeatmapForNode } from '@/fixtures/heatmapData'
 
 const props = defineProps<{
@@ -82,6 +82,7 @@ const weekLabel = computed(() => {
   if (weekOffset.value === -1) return 'Semaine derniere'
   const first = currentWeekDays.value[0]
   const last = currentWeekDays.value[6]
+  if (!first || !last) return ''
   const fmt = (iso: string) =>
     new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })
   return `${fmt(first.date)} — ${fmt(last.date)}`
@@ -141,14 +142,14 @@ const successRate = computed(() => {
 })
 
 const streak = computed(() => {
-  if (runs.value.length === 0) return null
-  const first = runs.value[0].status
+  const [latest, ...older] = runs.value
+  if (!latest) return null
   let count = 1
-  for (let i = 1; i < runs.value.length; i++) {
-    if (runs.value[i].status === first) count++
-    else break
+  for (const run of older) {
+    if (run.status !== latest.status) break
+    count++
   }
-  return { status: first, count }
+  return { status: latest.status, count }
 })
 
 const avgDuration = computed(() => {
@@ -246,9 +247,10 @@ function formatFullDate(iso: string): string {
   })
 }
 
+const DAY_LETTERS = ['D', 'L', 'M', 'M', 'J', 'V', 'S']
+
 function formatDayLetter(iso: string): string {
-  const letters = ['D', 'L', 'M', 'M', 'J', 'V', 'S']
-  return letters[new Date(iso).getDay()]
+  return DAY_LETTERS[new Date(iso).getDay()] ?? ''
 }
 
 function formatDayNum(iso: string): string {
