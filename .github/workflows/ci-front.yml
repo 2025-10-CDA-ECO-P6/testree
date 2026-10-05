@@ -1,0 +1,50 @@
+# CI du front : chaque PR vers master doit passer ces vérifications avant d'être fusionnée.
+name: CI front
+
+on:
+  pull_request:
+    branches: [master]
+    paths: ['front/**', '.github/workflows/ci-front.yml']
+  push:
+    branches: [master]
+    paths: ['front/**', '.github/workflows/ci-front.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  front:
+    name: front (types, lint, format, tests, build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: front
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: front/package-lock.json
+
+      - name: Installation (strictement depuis le lockfile)
+        run: npm ci
+
+      - name: Types
+        run: npm run type-check
+
+      # Les scripts "lint" corrigent automatiquement (--fix) : en CI on vérifie sans rien modifier.
+      - name: Lint (oxlint + ESLint)
+        run: |
+          npx oxlint .
+          npx eslint .
+
+      - name: Formatage
+        run: npx prettier --check src
+
+      - name: Tests unitaires
+        run: npx vitest run
+
+      - name: Build
+        run: npm run build-only
