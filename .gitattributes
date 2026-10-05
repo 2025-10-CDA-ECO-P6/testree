@@ -1,0 +1,11 @@
+# Fins de ligne normalisées (LF dans le repo, quel que soit l'OS)
+* text=auto
+
+# Scripts shell : toujours LF, sinon ils cassent dans Docker / Jenkins
+*.sh text eol=lf
+
+# Binaires
+*.png binary
+*.jpg binary
+*.ico binary
+*.pdf binary

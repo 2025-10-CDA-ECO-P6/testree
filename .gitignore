@@ -1,0 +1,23 @@
+# Données réelles Maincare (XML de résultats, noms de tests) : jamais versionnées
+samples/
+
+# Secrets et configuration locale
+.env
+.env.*
+!.env.example
+
+# Back Spring (à venir)
+back/target/
+back/build/
+back/.gradle/
+
+# Dépendances et builds (le front a aussi son propre .gitignore)
+node_modules/
+dist/
+
+# Système et éditeurs
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+*.log
