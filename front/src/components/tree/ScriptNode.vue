@@ -2,7 +2,7 @@
 import { Handle, Position } from '@vue-flow/core'
 import type { TreeNode } from '@/fixtures/testTree'
 
-const props = defineProps<{
+defineProps<{
   data: {
     node: TreeNode
     onSelect?: () => void
