@@ -14,17 +14,26 @@ const showTable = ref(false)
 
 // ── Filtered days (only with executions) ─────────────────────
 
-const activeDays = computed(() =>
-  props.days.filter((d) => d.execCount > 0),
-)
+const activeDays = computed(() => props.days.filter((d) => d.execCount > 0))
 
-const maxDuration = computed(() =>
-  Math.max(...activeDays.value.map((d) => d.durationMs), 1),
-)
+const maxDuration = computed(() => Math.max(...activeDays.value.map((d) => d.durationMs), 1))
 
 // ── Month labels ─────────────────────────────────────────────
 
-const MONTH_LABELS = ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec']
+const MONTH_LABELS = [
+  'Jan',
+  'Fev',
+  'Mar',
+  'Avr',
+  'Mai',
+  'Jun',
+  'Jul',
+  'Aou',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+]
 
 const months = computed(() => {
   const labels: { label: string; index: number }[] = []
@@ -130,7 +139,7 @@ const statusClass: Record<string, string> = {
     <!-- Mode switcher -->
     <div class="tl-modes">
       <button
-        v-for="m in (['statut', 'duree'] as ViewMode[])"
+        v-for="m in ['statut', 'duree'] as ViewMode[]"
         :key="m"
         class="mode-btn"
         :class="{ active: mode === m }"
@@ -165,11 +174,7 @@ const statusClass: Record<string, string> = {
             @click="selectDay(day)"
           >
             <!-- .ats commit marker -->
-            <svg
-              v-if="day.hasAtsCommit"
-              class="tl-ats-marker"
-              viewBox="0 0 8 6"
-            >
+            <svg v-if="day.hasAtsCommit" class="tl-ats-marker" viewBox="0 0 8 6">
               <polygon points="0,6 4,0 8,6" fill="var(--c-accent)" />
             </svg>
 
@@ -199,20 +204,36 @@ const statusClass: Record<string, string> = {
     <!-- Legend -->
     <div class="tl-legend">
       <template v-if="mode === 'statut'">
-        <span class="legend-item"><span class="legend-dot" style="background: var(--c-green)" /> Pass</span>
-        <span class="legend-item"><span class="legend-dot" style="background: var(--c-red)" /> Fail</span>
-        <span class="legend-item"><span class="legend-dot" style="background: var(--c-skip)" /> Skip</span>
+        <span class="legend-item"
+          ><span class="legend-dot" style="background: var(--c-green)" /> Pass</span
+        >
+        <span class="legend-item"
+          ><span class="legend-dot" style="background: var(--c-red)" /> Fail</span
+        >
+        <span class="legend-item"
+          ><span class="legend-dot" style="background: var(--c-skip)" /> Skip</span
+        >
         <span class="legend-sep" />
         <span class="legend-item">
-          <svg class="legend-tri" viewBox="0 0 8 6"><polygon points="0,6 4,0 8,6" fill="var(--c-accent)" /></svg>
+          <svg class="legend-tri" viewBox="0 0 8 6">
+            <polygon points="0,6 4,0 8,6" fill="var(--c-accent)" />
+          </svg>
           Commit .ats
         </span>
       </template>
       <template v-else>
-        <span class="legend-item"><span class="legend-dot" style="background: var(--c-green)" /> Rapide</span>
-        <span class="legend-item"><span class="legend-dot" style="background: var(--c-orange)" /> Moyen</span>
-        <span class="legend-item"><span class="legend-dot" style="background: var(--c-red)" /> Lent</span>
-        <span class="legend-item"><span class="legend-dot" style="background: #b71c1c" /> Tres lent</span>
+        <span class="legend-item"
+          ><span class="legend-dot" style="background: var(--c-green)" /> Rapide</span
+        >
+        <span class="legend-item"
+          ><span class="legend-dot" style="background: var(--c-orange)" /> Moyen</span
+        >
+        <span class="legend-item"
+          ><span class="legend-dot" style="background: var(--c-red)" /> Lent</span
+        >
+        <span class="legend-item"
+          ><span class="legend-dot" style="background: #b71c1c" /> Tres lent</span
+        >
       </template>
     </div>
 
@@ -252,16 +273,25 @@ const statusClass: Record<string, string> = {
           <svg
             class="expand-chevron"
             :class="{ open: showTable }"
-            width="12" height="12" viewBox="0 0 12 12"
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
           >
-            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" />
+            <path
+              d="M3 4.5L6 7.5L9 4.5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              fill="none"
+              stroke-linecap="round"
+            />
           </svg>
         </button>
 
         <Transition name="expand">
           <div v-if="showTable" class="detail-table-wrap">
             <div class="detail-note">
-              Donnees agregees pour cette journee — detail par execution a venir avec l'integration Jenkins.
+              Donnees agregees pour cette journee — detail par execution a venir avec l'integration
+              Jenkins.
             </div>
           </div>
         </Transition>
@@ -296,7 +326,9 @@ const statusClass: Record<string, string> = {
   padding: 0.375rem 0.75rem;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: color 0.2s, background 0.2s;
+  transition:
+    color 0.2s,
+    background 0.2s;
 }
 .mode-btn:hover {
   color: var(--c-text);
@@ -375,7 +407,10 @@ const statusClass: Record<string, string> = {
 .tl-bar {
   width: 100%;
   border-radius: 2px 2px 0 0;
-  transition: height 0.3s ease, background 0.2s, opacity 0.2s;
+  transition:
+    height 0.3s ease,
+    background 0.2s,
+    opacity 0.2s;
   opacity: 0.8;
 }
 
@@ -549,7 +584,9 @@ const statusClass: Record<string, string> = {
 /* ── Transitions ───────────────────────────────────────────── */
 .slide-enter-active,
 .slide-leave-active {
-  transition: opacity 0.2s, transform 0.2s;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
 }
 .slide-enter-from,
 .slide-leave-to {
@@ -559,7 +596,9 @@ const statusClass: Record<string, string> = {
 
 .expand-enter-active,
 .expand-leave-active {
-  transition: max-height 0.25s ease, opacity 0.2s;
+  transition:
+    max-height 0.25s ease,
+    opacity 0.2s;
   max-height: 200px;
 }
 .expand-enter-from,

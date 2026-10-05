@@ -39,8 +39,7 @@ type VfEdge = {
 }
 
 // ── State ───────────────────────────────────────────────────
-const { currentNode, breadcrumb, visibleNodes, drillDown, navigateTo } =
-  useTreeNavigation(testTree)
+const { currentNode, breadcrumb, visibleNodes, drillDown, navigateTo } = useTreeNavigation(testTree)
 
 const nodes = ref<VfNode[]>([])
 const edges = ref<VfEdge[]>([])
@@ -82,8 +81,12 @@ const GAP_Y = 90
 
 const aboveChildIds = new Set<string>()
 
-function nodeW(n: VfNode) { return n.type === 'module' ? MODULE_W : SCRIPT_W }
-function nodeH(n: VfNode) { return n.type === 'module' ? MODULE_H : SCRIPT_H }
+function nodeW(n: VfNode) {
+  return n.type === 'module' ? MODULE_W : SCRIPT_W
+}
+function nodeH(n: VfNode) {
+  return n.type === 'module' ? MODULE_H : SCRIPT_H
+}
 
 function centerRow(row: VfNode[], y: number) {
   const totalW = row.reduce((s, c) => s + nodeW(c), 0) + (row.length - 1) * GAP_X
@@ -140,9 +143,7 @@ function resolveTarget(node: TreeNode): TreeNode {
 
 /** Applique une classe CSS à un nœud */
 function setNodeClass(id: string, cls: string) {
-  nodes.value = nodes.value.map((n) =>
-    n.id === id ? { ...n, class: cls } : n,
-  )
+  nodes.value = nodes.value.map((n) => (n.id === id ? { ...n, class: cls } : n))
 }
 
 /** Rend un edge visible (avec transition) */
@@ -281,8 +282,11 @@ async function animatedDrillDown(child: TreeNode) {
 
   // Phase 2 — Changer de niveau, positionner depuis le nœud cliqué
   drillDown(target)
-  const { parent: layoutParent, childNodes: layoutChildren, levelEdges } =
-    buildLevel(target, visibleNodes.value)
+  const {
+    parent: layoutParent,
+    childNodes: layoutChildren,
+    levelEdges,
+  } = buildLevel(target, visibleNodes.value)
 
   const dx = savedPos.x - layoutParent.position.x
   const dy = savedPos.y - layoutParent.position.y
@@ -329,8 +333,11 @@ async function animatedNavigateTo(target: TreeNode, pushHistory = true) {
   const newChildren = visibleNodes.value
   const oldParentIsChild = newChildren.some((c) => c.id === oldParentId)
 
-  const { parent: newParent, childNodes: newChildNodes, levelEdges: newEdges } =
-    buildLevel(resolved, newChildren)
+  const {
+    parent: newParent,
+    childNodes: newChildNodes,
+    levelEdges: newEdges,
+  } = buildLevel(resolved, newChildren)
 
   if (oldParentIsChild) {
     // L'ancien parent devient enfant — il glisse vers sa nouvelle position
@@ -356,8 +363,7 @@ async function animatedNavigateTo(target: TreeNode, pushHistory = true) {
     nodes.value = nodes.value.map((n) => {
       if (n.id === oldParentId)
         return { ...n, position: { ...oldParentTarget.position }, class: 'node-transition' }
-      if (n.id === resolved.id)
-        return { ...n, class: 'node-enter' }
+      if (n.id === resolved.id) return { ...n, class: 'node-enter' }
       return n
     })
     showEdge(oldParentId)
@@ -408,9 +414,7 @@ async function animatedSelectNode(targetNode: TreeNode) {
   await fadeOutSiblings(clickedId)
 
   // Phase 2 — Isoler le nœud (pas de class spéciale, pas de déplacement)
-  nodes.value = nodes.value
-    .filter((n) => n.id === clickedId)
-    .map((n) => ({ ...n, class: '' }))
+  nodes.value = nodes.value.filter((n) => n.id === clickedId).map((n) => ({ ...n, class: '' }))
   edges.value = []
 
   await nextTick()
@@ -447,9 +451,7 @@ async function closeDetail() {
     if (clickedId) {
       // Phase 2 — Restaurer tous les nœuds : cliqué visible, reste caché
       nodes.value = savedNodes.map((n) =>
-        n.id === clickedId
-          ? { ...n, class: '' }
-          : { ...n, class: 'node-hidden' },
+        n.id === clickedId ? { ...n, class: '' } : { ...n, class: 'node-hidden' },
       )
       edges.value = savedEdges.map((e) => ({
         ...e,
@@ -498,8 +500,7 @@ async function closeDetailAndNavigate(target: TreeNode) {
   // Construire le nouveau niveau
   const resolved = resolveTarget(target)
   navigateTo(resolved)
-  const { parent: newParent, childNodes, levelEdges } =
-    buildLevel(resolved, visibleNodes.value)
+  const { parent: newParent, childNodes, levelEdges } = buildLevel(resolved, visibleNodes.value)
 
   setupHiddenLevel(newParent, childNodes, levelEdges)
   await nextTick()
@@ -554,7 +555,11 @@ edges.value = initEdges
 </script>
 
 <template>
-  <div class="tree-wrapper" :class="{ 'popup-active': showDetail }" :style="{ '--pulse-sync': pulseSync }">
+  <div
+    class="tree-wrapper"
+    :class="{ 'popup-active': showDetail }"
+    :style="{ '--pulse-sync': pulseSync }"
+  >
     <nav class="breadcrumb">
       <span
         v-for="(crumb, i) in breadcrumb"
@@ -566,10 +571,8 @@ edges.value = initEdges
         }"
         @click="
           i < breadcrumb.length - 1 &&
-            resolveTarget(crumb).id === crumb.id &&
-            (showDetail
-              ? closeDetailAndNavigate(crumb)
-              : animatedNavigateTo(crumb))
+          resolveTarget(crumb).id === crumb.id &&
+          (showDetail ? closeDetailAndNavigate(crumb) : animatedNavigateTo(crumb))
         "
       >
         {{ crumb.label }}
@@ -640,13 +643,29 @@ edges.value = initEdges
   cursor: pointer;
   transition: color 0.2s;
 }
-.crumb:hover { color: var(--c-accent); }
-.crumb.active { color: var(--c-text); cursor: default; }
-.crumb.skipped { color: var(--c-text-faint); cursor: default; }
-.crumb.skipped:hover { color: var(--c-text-faint); }
-.separator { color: var(--c-border); margin: 0 0.375rem; }
+.crumb:hover {
+  color: var(--c-accent);
+}
+.crumb.active {
+  color: var(--c-text);
+  cursor: default;
+}
+.crumb.skipped {
+  color: var(--c-text-faint);
+  cursor: default;
+}
+.crumb.skipped:hover {
+  color: var(--c-text-faint);
+}
+.separator {
+  color: var(--c-border);
+  margin: 0 0.375rem;
+}
 
-.tree-container { flex: 1; width: 100%; }
+.tree-container {
+  flex: 1;
+  width: 100%;
+}
 
 /* Cacher les handles */
 :deep(.vue-flow__handle) {
@@ -673,7 +692,9 @@ edges.value = initEdges
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: color 0.2s, background 0.2s;
+  transition:
+    color 0.2s,
+    background 0.2s;
 }
 :deep(.vue-flow__controls-button:last-child) {
   border-bottom: none;
@@ -711,8 +732,14 @@ edges.value = initEdges
 }
 
 @keyframes cascadeIn {
-  from { opacity: 0; filter: blur(3px); }
-  to { opacity: 1; filter: blur(0); }
+  from {
+    opacity: 0;
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
 }
 
 /* ── Popup flottante ─────────────────────────────────────── */
@@ -733,7 +760,9 @@ edges.value = initEdges
 
 .slide-up-enter-active,
 .slide-up-leave-active {
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease;
 }
 .slide-up-enter-from,
 .slide-up-leave-to {

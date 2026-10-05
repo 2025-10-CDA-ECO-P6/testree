@@ -135,8 +135,7 @@ const dayRuns = computed(() => {
 const successRate = computed(() => {
   if (effectiveRuns.value.length === 0) return 0
   return Math.round(
-    (effectiveRuns.value.filter((r) => r.status === 'PASS').length /
-      effectiveRuns.value.length) *
+    (effectiveRuns.value.filter((r) => r.status === 'PASS').length / effectiveRuns.value.length) *
       100,
   )
 })
@@ -155,13 +154,13 @@ const streak = computed(() => {
 const avgDuration = computed(() => {
   if (effectiveRuns.value.length === 0) return 0
   return Math.round(
-    effectiveRuns.value.reduce((s, r) => s + r.durationMs, 0) /
-      effectiveRuns.value.length,
+    effectiveRuns.value.reduce((s, r) => s + r.durationMs, 0) / effectiveRuns.value.length,
   )
 })
 
 const dayVsAvg = computed(() => {
-  if (!selectedDay.value || selectedDay.value.durationMs === 0 || avgDuration.value === 0) return null
+  if (!selectedDay.value || selectedDay.value.durationMs === 0 || avgDuration.value === 0)
+    return null
   const diff = ((selectedDay.value.durationMs - avgDuration.value) / avgDuration.value) * 100
   return Math.round(diff)
 })
@@ -188,10 +187,14 @@ const scriptCounts = computed(() => {
 // ── Formatting ────────────────────────────────────────────
 function statusUtility(status: ScriptStatus): string {
   switch (status) {
-    case 'PASS': return 'st-green'
-    case 'FAIL': return 'st-red'
-    case 'SKIP': return 'st-skip'
-    case 'ERROR': return 'st-orange'
+    case 'PASS':
+      return 'st-green'
+    case 'FAIL':
+      return 'st-red'
+    case 'SKIP':
+      return 'st-skip'
+    case 'ERROR':
+      return 'st-orange'
   }
 }
 
@@ -243,7 +246,9 @@ function daysAgo(iso: string): string {
 
 function formatFullDate(iso: string): string {
   return new Date(iso).toLocaleDateString('fr-FR', {
-    weekday: 'long', day: 'numeric', month: 'long',
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
   })
 }
 
@@ -277,8 +282,7 @@ const rateColor = computed(() => {
   return 'var(--c-red)'
 })
 
-const circlePath =
-  'M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831'
+const circlePath = 'M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831'
 </script>
 
 <template>
@@ -299,7 +303,8 @@ const circlePath =
             :stroke-dasharray="`${successRate}, 100`"
           />
           <text
-            x="18" y="19"
+            x="18"
+            y="19"
             text-anchor="middle"
             dominant-baseline="middle"
             class="rate-number"
@@ -307,7 +312,9 @@ const circlePath =
           >
             {{ successRate }}
           </text>
-          <text x="18" y="25" text-anchor="middle" class="rate-pct" fill="var(--c-text-muted)">%</text>
+          <text x="18" y="25" text-anchor="middle" class="rate-pct" fill="var(--c-text-muted)">
+            %
+          </text>
         </svg>
         <span class="rate-label">Taux de reussite</span>
       </div>
@@ -315,12 +322,16 @@ const circlePath =
       <div class="week-carousel">
         <!-- Navigation -->
         <div class="week-nav">
-          <button
-            class="week-arrow"
-            :class="{ disabled: weekOffset >= 0 }"
-            @click="nextWeek"
-          >
-            <svg width="14" height="14" viewBox="0 0 14 14"><path d="M9 3L5 7L9 11" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" /></svg>
+          <button class="week-arrow" :class="{ disabled: weekOffset >= 0 }" @click="nextWeek">
+            <svg width="14" height="14" viewBox="0 0 14 14">
+              <path
+                d="M9 3L5 7L9 11"
+                stroke="currentColor"
+                stroke-width="1.5"
+                fill="none"
+                stroke-linecap="round"
+              />
+            </svg>
           </button>
           <span class="week-label-text">{{ weekLabel }}</span>
           <button
@@ -328,7 +339,15 @@ const circlePath =
             :class="{ disabled: weekOffset <= -MAX_WEEKS_BACK }"
             @click="prevWeek"
           >
-            <svg width="14" height="14" viewBox="0 0 14 14"><path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" /></svg>
+            <svg width="14" height="14" viewBox="0 0 14 14">
+              <path
+                d="M5 3L9 7L5 11"
+                stroke="currentColor"
+                stroke-width="1.5"
+                fill="none"
+                stroke-linecap="round"
+              />
+            </svg>
           </button>
         </div>
 
@@ -360,9 +379,15 @@ const circlePath =
 
         <!-- Mini legend -->
         <div class="week-legend">
-          <span class="legend-item"><span class="legend-dot" style="background: var(--c-green)" /> Pass</span>
-          <span class="legend-item"><span class="legend-dot" style="background: var(--c-red)" /> Fail</span>
-          <span class="legend-item"><span class="legend-dot" style="background: var(--c-inset)" /> Aucune</span>
+          <span class="legend-item"
+            ><span class="legend-dot" style="background: var(--c-green)" /> Pass</span
+          >
+          <span class="legend-item"
+            ><span class="legend-dot" style="background: var(--c-red)" /> Fail</span
+          >
+          <span class="legend-item"
+            ><span class="legend-dot" style="background: var(--c-inset)" /> Aucune</span
+          >
           <span class="legend-sep" />
           <span class="legend-item"><span class="legend-dot legend-dot-git" /> Git</span>
         </div>
@@ -400,35 +425,48 @@ const circlePath =
 
       <!-- Sub-tab content -->
       <div class="sub-content">
-
         <!-- ── RESUME ─────────────────────────────────── -->
         <div v-if="activeSubTab === 'resume'" class="resume-content">
           <!-- Day selected -->
           <template v-if="selectedDay">
             <div class="resume-grid">
               <div class="resume-card">
-                <div class="resume-card-value" :class="selectedDay.status ? statusUtility(selectedDay.status as ScriptStatus) : ''">
-                  {{ selectedDay.status ? statusLabel[selectedDay.status as ScriptStatus] : 'Aucune' }}
+                <div
+                  class="resume-card-value"
+                  :class="
+                    selectedDay.status ? statusUtility(selectedDay.status as ScriptStatus) : ''
+                  "
+                >
+                  {{
+                    selectedDay.status ? statusLabel[selectedDay.status as ScriptStatus] : 'Aucune'
+                  }}
                 </div>
                 <div class="resume-card-label">Statut</div>
               </div>
               <div class="resume-card">
                 <div class="resume-card-value">{{ selectedDay.execCount }}</div>
-                <div class="resume-card-label">Execution{{ selectedDay.execCount > 1 ? 's' : '' }}</div>
+                <div class="resume-card-label">
+                  Execution{{ selectedDay.execCount > 1 ? 's' : '' }}
+                </div>
               </div>
               <div class="resume-card">
-                <div class="resume-card-value">{{ selectedDay.durationMs > 0 ? formatDuration(selectedDay.durationMs) : '—' }}</div>
+                <div class="resume-card-value">
+                  {{ selectedDay.durationMs > 0 ? formatDuration(selectedDay.durationMs) : '—' }}
+                </div>
                 <div class="resume-card-label">Duree moy.</div>
               </div>
               <div class="resume-card">
                 <div class="resume-card-value">{{ selectedDay.gitlabCommits.length }}</div>
-                <div class="resume-card-label">Commit{{ selectedDay.gitlabCommits.length > 1 ? 's' : '' }} Git</div>
+                <div class="resume-card-label">
+                  Commit{{ selectedDay.gitlabCommits.length > 1 ? 's' : '' }} Git
+                </div>
               </div>
             </div>
 
             <div v-if="dayVsAvg !== null" class="resume-comparison">
               <span :class="dayVsAvg > 0 ? 'cmp-slower' : 'cmp-faster'">
-                {{ dayVsAvg > 0 ? '+' : '' }}{{ dayVsAvg }}% {{ dayVsAvg > 0 ? 'plus lent' : 'plus rapide' }}
+                {{ dayVsAvg > 0 ? '+' : '' }}{{ dayVsAvg }}%
+                {{ dayVsAvg > 0 ? 'plus lent' : 'plus rapide' }}
               </span>
               que la moyenne ({{ formatDuration(avgDuration) }})
             </div>
@@ -442,7 +480,9 @@ const circlePath =
           <template v-else>
             <div class="resume-grid">
               <div class="resume-card">
-                <div class="resume-card-value" :style="{ color: rateColor }">{{ successRate }}%</div>
+                <div class="resume-card-value" :style="{ color: rateColor }">
+                  {{ successRate }}%
+                </div>
                 <div class="resume-card-label">Taux de reussite</div>
               </div>
               <div class="resume-card">
@@ -454,8 +494,12 @@ const circlePath =
                 <div class="resume-card-label">Duree moyenne</div>
               </div>
               <div v-if="streak && node.type === 'script'" class="resume-card">
-                <div class="resume-card-value" :style="{ color: statusColorVar[streak.status] }">{{ streak.count }}</div>
-                <div class="resume-card-label">{{ statusLabel[streak.status] }}{{ streak.count > 1 ? 's' : '' }} consec.</div>
+                <div class="resume-card-value" :style="{ color: statusColorVar[streak.status] }">
+                  {{ streak.count }}
+                </div>
+                <div class="resume-card-label">
+                  {{ statusLabel[streak.status] }}{{ streak.count > 1 ? 's' : '' }} consec.
+                </div>
               </div>
               <div v-if="scriptCounts" class="resume-card">
                 <div class="resume-card-value">{{ scriptCounts.total }}</div>
@@ -535,7 +579,9 @@ const circlePath =
                 <div class="commit-message">{{ commit.message }}</div>
                 <div class="commit-meta">
                   <span class="commit-author">{{ commit.author }}</span>
-                  <span class="commit-files">{{ commit.filesChanged }} fichier{{ commit.filesChanged > 1 ? 's' : '' }}</span>
+                  <span class="commit-files"
+                    >{{ commit.filesChanged }} fichier{{ commit.filesChanged > 1 ? 's' : '' }}</span
+                  >
                 </div>
               </div>
             </div>
@@ -571,7 +617,9 @@ const circlePath =
           </div>
           <div v-if="node.type === 'module' && scriptCounts" class="info-row">
             <span class="info-label">Scripts</span>
-            <span class="info-value">{{ scriptCounts.total }} script{{ scriptCounts.total > 1 ? 's' : '' }}</span>
+            <span class="info-value"
+              >{{ scriptCounts.total }} script{{ scriptCounts.total > 1 ? 's' : '' }}</span
+            >
           </div>
           <div v-if="node.lastAtsModif" class="info-row">
             <span class="info-label">Derniere modif .ats</span>
@@ -582,14 +630,15 @@ const circlePath =
           </div>
           <div class="info-row">
             <span class="info-label">Executions</span>
-            <span class="info-value">{{ effectiveRuns.length }} enregistree{{ effectiveRuns.length > 1 ? 's' : '' }}</span>
+            <span class="info-value"
+              >{{ effectiveRuns.length }} enregistree{{ effectiveRuns.length > 1 ? 's' : '' }}</span
+            >
           </div>
           <div class="info-row">
             <span class="info-label">Duree moyenne</span>
             <span class="info-value">{{ formatDuration(avgDuration) }}</span>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -609,7 +658,9 @@ const circlePath =
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 0.5rem 2.5rem rgba(0, 0, 0, 0.4), 0 0 1.25rem var(--c-accent-glow-sub);
+  box-shadow:
+    0 0.5rem 2.5rem rgba(0, 0, 0, 0.4),
+    0 0 1.25rem var(--c-accent-glow-sub);
 }
 
 /* ── Close button ───────────────────────────────────────────── */
@@ -629,7 +680,10 @@ const circlePath =
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    background 0.2s;
 }
 .close-btn:hover {
   color: var(--c-text);
@@ -696,7 +750,10 @@ const circlePath =
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    background 0.2s;
 }
 .week-arrow:hover:not(.disabled) {
   color: var(--c-text);
@@ -742,7 +799,10 @@ const circlePath =
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: outline 0.15s, box-shadow 0.15s, transform 0.1s;
+  transition:
+    outline 0.15s,
+    box-shadow 0.15s,
+    transform 0.1s;
 }
 .day-cell:hover:not(.future) {
   outline: 1.5px solid var(--c-text-muted);
@@ -861,7 +921,9 @@ const circlePath =
   padding: 0.375rem 0.5rem;
   border-radius: calc(var(--radius-md) - 2px);
   cursor: pointer;
-  transition: color 0.2s, background 0.2s;
+  transition:
+    color 0.2s,
+    background 0.2s;
   white-space: nowrap;
 }
 .sub-tab:hover {
@@ -907,7 +969,9 @@ const circlePath =
   cursor: pointer;
   padding: 0.125rem 0.375rem;
   border-radius: var(--radius-sm);
-  transition: color 0.2s, background 0.2s;
+  transition:
+    color 0.2s,
+    background 0.2s;
 }
 .day-banner-clear:hover {
   color: var(--c-text);
@@ -957,8 +1021,14 @@ const circlePath =
   border: 1px solid var(--c-border-inner);
   border-radius: var(--radius-sm);
 }
-.cmp-slower { color: var(--c-red); font-weight: 600; }
-.cmp-faster { color: var(--c-green); font-weight: 600; }
+.cmp-slower {
+  color: var(--c-red);
+  font-weight: 600;
+}
+.cmp-faster {
+  color: var(--c-green);
+  font-weight: 600;
+}
 
 .resume-ats-badge {
   display: inline-flex;
@@ -987,7 +1057,9 @@ const circlePath =
   padding: 0.5rem 0;
   border-bottom: 1px solid var(--c-border-row);
 }
-.breakdown-row:last-child { border-bottom: none; }
+.breakdown-row:last-child {
+  border-bottom: none;
+}
 .breakdown-dot {
   width: 8px;
   height: 8px;
@@ -1098,7 +1170,9 @@ const circlePath =
   font-size: 0.6875rem;
   color: var(--c-text-muted);
 }
-.commit-author { font-weight: 500; }
+.commit-author {
+  font-weight: 500;
+}
 
 /* ── INFOS ──────────────────────────────────────────────────── */
 .infos-content {

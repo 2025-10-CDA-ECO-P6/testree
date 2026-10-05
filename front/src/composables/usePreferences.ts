@@ -25,11 +25,15 @@ export function usePreference<T>(key: string, defaultValue: T) {
   const prefs = load()
   const value = ref<T>(key in prefs ? (prefs[key] as T) : defaultValue) as ReturnType<typeof ref<T>>
 
-  watch(value, (v) => {
-    const current = load()
-    current[key] = v
-    save(current)
-  }, { deep: true })
+  watch(
+    value,
+    (v) => {
+      const current = load()
+      current[key] = v
+      save(current)
+    },
+    { deep: true },
+  )
 
   return value
 }

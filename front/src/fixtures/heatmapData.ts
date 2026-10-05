@@ -5,10 +5,10 @@
 import type { ScriptStatus, TreeNode } from '@/fixtures/testTree'
 
 export interface GitlabCommit {
-  hash: string        // short hash (7 chars)
-  message: string     // message du commit
-  author: string      // auteur
-  date: string        // ISO datetime
+  hash: string // short hash (7 chars)
+  message: string // message du commit
+  author: string // auteur
+  date: string // ISO datetime
   filesChanged: number
 }
 
@@ -35,7 +35,7 @@ function seededRand(seed: string): () => number {
     h ^= h << 13
     h ^= h >> 17
     h ^= h << 5
-    return ((h >>> 0) / 4294967296)
+    return (h >>> 0) / 4294967296
   }
 }
 
@@ -154,7 +154,7 @@ export function generateHeatmapData(
     if (isFlaky) {
       status = r < 0.45 ? 'PASS' : r < 0.75 ? 'FAIL' : r < 0.9 ? 'PASS' : 'ERROR'
     } else {
-      status = r < (1 - failRate) ? 'PASS' : r < (1 - failRate * 0.15) ? 'FAIL' : 'ERROR'
+      status = r < 1 - failRate ? 'PASS' : r < 1 - failRate * 0.15 ? 'FAIL' : 'ERROR'
     }
 
     // Durée moyenne (3-15s, avec variance)
@@ -213,9 +213,10 @@ export function getHeatmapForNode(node: TreeNode): HeatmapDay[] {
         existing.hasAtsCommit = existing.hasAtsCommit || day.hasAtsCommit
         existing.gitlabCommits.push(...day.gitlabCommits)
         if (day.durationMs > 0) {
-          existing.durationMs = existing.durationMs > 0
-            ? Math.round((existing.durationMs + day.durationMs) / 2)
-            : day.durationMs
+          existing.durationMs =
+            existing.durationMs > 0
+              ? Math.round((existing.durationMs + day.durationMs) / 2)
+              : day.durationMs
         }
         // Statut dominant : FAIL/ERROR > SKIP > PASS
         if (day.status === 'FAIL' || day.status === 'ERROR') {

@@ -48,9 +48,9 @@ const counts = computed(() => {
       title="Statistiques du module"
     >
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <rect x="1" y="8" width="2.5" height="5" rx="0.5" fill="currentColor" opacity="0.6"/>
-        <rect x="5.25" y="4" width="2.5" height="9" rx="0.5" fill="currentColor" opacity="0.8"/>
-        <rect x="9.5" y="1" width="2.5" height="12" rx="0.5" fill="currentColor"/>
+        <rect x="1" y="8" width="2.5" height="5" rx="0.5" fill="currentColor" opacity="0.6" />
+        <rect x="5.25" y="4" width="2.5" height="9" rx="0.5" fill="currentColor" opacity="0.8" />
+        <rect x="9.5" y="1" width="2.5" height="12" rx="0.5" fill="currentColor" />
       </svg>
     </button>
 
@@ -74,7 +74,10 @@ const counts = computed(() => {
   padding: 1.375rem 2.125rem;
   min-width: 16.25rem;
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
   text-align: center;
   position: relative;
 }
@@ -99,7 +102,9 @@ const counts = computed(() => {
   height: 1.75rem;
   opacity: 0;
 }
-.module-node:hover .stats-btn { opacity: 1; }
+.module-node:hover .stats-btn {
+  opacity: 1;
+}
 
 .module-label {
   color: var(--c-text);
