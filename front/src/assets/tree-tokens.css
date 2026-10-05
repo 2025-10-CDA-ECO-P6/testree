@@ -1,0 +1,127 @@
+/* ═══════════════════════════════════════════════════════════
+   Testree — Design Tokens + Shared Utilities
+   Importé dans TestTree.vue, hérité par tous les composants
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Backgrounds ──────────────────────────────────────── */
+  --c-bg:          #0f1219;
+  --c-surface:     #1a1f2e;
+  --c-surface-alt: #1e2538;
+  --c-inset:       #151a28;
+  --c-nav:         #141820;
+
+  /* ── Borders ──────────────────────────────────────────── */
+  --c-border:        #2a3142;
+  --c-border-subtle: #1e2433;
+  --c-border-row:    #1e2538;
+  --c-border-inner:  #252b3d;
+  --c-border-strong: #4a5a70;
+
+  /* ── Text ─────────────────────────────────────────────── */
+  --c-text:       #e0e0e0;
+  --c-text-2:     #b0bec5;
+  --c-text-muted: #607080;
+  --c-text-dim:   #4a5a70;
+  --c-text-faint: #3a4252;
+
+  /* ── Accent ───────────────────────────────────────────── */
+  --c-accent:          #4fc3f7;
+  --c-accent-glow:     rgba(79, 195, 247, 0.15);
+  --c-accent-glow-dim: rgba(79, 195, 247, 0.08);
+  --c-accent-glow-sub: rgba(79, 195, 247, 0.06);
+
+  /* ── Status — 3 nuances par couleur : bg / border / text ─ */
+  --c-green:        #66bb6a;
+  --c-green-border: #2e7d32;
+  --c-green-bg:     #1b3a2a;
+
+  --c-orange:        #ffa726;
+  --c-orange-border: #c77800;
+  --c-orange-bg:     #3a2e1b;
+
+  --c-red:        #ef5350;
+  --c-red-border: #c62828;
+  --c-red-bg:     #3a1b1b;
+
+  --c-skip:        #78909c;
+  --c-skip-border: #546e7a;
+  --c-skip-bg:     #263238;
+
+  /* ── Radii ────────────────────────────────────────────── */
+  --radius-sm:  0.25rem;   /* ~4px  */
+  --radius-md:  0.5rem;    /* ~8px  */
+  --radius-lg:  0.75rem;   /* ~12px */
+  --radius-pill: 50%;
+
+  /* ── Edge ─────────────────────────────────────────────── */
+  --c-edge: #2a3142;
+}
+
+/* ── Status color utilities ─────────────────────────────── */
+.st-green  { color: var(--c-green);  background: var(--c-green-bg);  }
+.st-orange { color: var(--c-orange); background: var(--c-orange-bg); }
+.st-red    { color: var(--c-red);    background: var(--c-red-bg);    }
+.st-skip   { color: var(--c-skip);   background: var(--c-skip-bg);   }
+
+/* Border variant (nodes, cards) — utilise la nuance middle */
+.stb-green  { border-color: var(--c-green-border);  }
+.stb-orange { border-color: var(--c-orange-border); }
+.stb-red    { border-color: var(--c-red-border);    }
+
+/* ── Flaky badge ────────────────────────────────────────── */
+.flaky-badge {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--c-orange);
+  background: rgba(255, 167, 38, 0.15);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Icon button (close, stats, etc.) ───────────────────── */
+.icon-btn {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--c-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.icon-btn:hover {
+  color: var(--c-accent);
+  border-color: var(--c-border);
+  background: var(--c-accent-glow-sub);
+}
+
+/* ── Pulse animation — générique via --pulse-color ──────── */
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  50% { box-shadow: 0 0 8px 3px var(--pulse-color, currentColor); }
+}
+
+/* ── Scrollbar globale — trait fin bleu clair ───────────── */
+::-webkit-scrollbar {
+  width: 0.375rem;
+  height: 0.375rem;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--c-accent);
+  border-radius: 0.1875rem;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6dd0fa;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--c-accent) transparent;
+}
