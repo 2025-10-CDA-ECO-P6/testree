@@ -1,0 +1,14 @@
+# Build Maven (classes compilées, rapports de tests, jar)
+target/
+
+# Wrapper Maven en mode « script seul » : aucun jar à versionner
+.mvn/wrapper/maven-wrapper.jar
+
+# Fichiers générés par l'extension Java de VS Code (et Eclipse)
+.classpath
+.project
+.settings/
+.factorypath
+
+# IntelliJ IDEA (le dossier .idea/ est déjà ignoré à la racine)
+*.iml
