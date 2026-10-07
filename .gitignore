@@ -6,12 +6,7 @@ samples/
 .env.*
 !.env.example
 
-# Back Spring (à venir)
-back/target/
-back/build/
-back/.gradle/
-
-# Dépendances et builds (le front a aussi son propre .gitignore)
+# Dépendances et builds (le front et le back ont aussi leur propre .gitignore)
 node_modules/
 dist/
 

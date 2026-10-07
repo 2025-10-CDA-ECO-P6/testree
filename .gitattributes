@@ -4,6 +4,10 @@
 # Scripts shell : toujours LF, sinon ils cassent dans Docker / Jenkins
 *.sh text eol=lf
 
+# Wrapper Maven du back : script Unix en LF, script Windows en CRLF
+mvnw text eol=lf
+*.cmd text eol=crlf
+
 # Binaires
 *.png binary
 *.jpg binary

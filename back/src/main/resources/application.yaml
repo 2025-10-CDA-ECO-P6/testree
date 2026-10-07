@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: testree
+
+# Actuator : seul /actuator/health est exposé sur le web, et sans le détail des composants.
+# Ce sont les valeurs par défaut, écrites ici pour que ce choix de sécurité soit visible et testé
+# (OWASP Top 10:2025, A02 Security Misconfiguration).
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
