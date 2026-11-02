@@ -1,6 +1,21 @@
 spring:
   application:
     name: testree
+  # Identifiants de la base lus dans le .env de la racine, le même que docker compose.
+  # « optional » : en CI il n'y a pas de .env, la base de test vient de Testcontainers.
+  config:
+    import: "optional:file:.env[.properties],optional:file:../.env[.properties]"
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB:testree}
+    username: ${POSTGRES_USER:testree}
+    password: ${POSTGRES_PASSWORD:}
+  jpa:
+    hibernate:
+      # Hibernate vérifie que le code correspond aux tables, sans jamais les modifier :
+      # seul Flyway fait évoluer le schéma (ADR-032).
+      ddl-auto: validate
+    # La connexion est rendue dès la fin du service, pas gardée jusqu'à l'envoi de la réponse.
+    open-in-view: false
 
 # Actuator : seul /actuator/health est exposé sur le web, et sans le détail des composants.
 # Ce sont les valeurs par défaut, écrites ici pour que ce choix de sécurité soit visible et testé
