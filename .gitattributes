@@ -8,6 +8,9 @@
 mvnw text eol=lf
 *.cmd text eol=crlf
 
+# Scripts PowerShell : CRLF, comme les .cmd
+*.ps1 text eol=crlf
+
 # Binaires
 *.png binary
 *.jpg binary
