@@ -1,6 +1,6 @@
 # Testree — back
 
-API de Testree : Spring Boot 4.1, Java 21, Maven. Choix expliqués dans `docs/decisions/` (ADR-003, ADR-021, ADR-025).
+API de Testree : Spring Boot 4.1, Java 21, Maven.
 
 ## Prérequis
 

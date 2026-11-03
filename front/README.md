@@ -1,54 +1,27 @@
-# front
+# Testree — front
 
-This template should help get you started developing with Vue 3 in Vite.
+Application Vue de Testree : Vue 3, TypeScript, Vue Flow, Pinia, Vite.
 
-## Recommended IDE Setup
+## Prérequis
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Node.js 22.18 ou plus récent (24 conseillé).
 
-## Recommended Browser Setup
+## Commandes (depuis `front/`)
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+| Action | Commande |
+|---|---|
+| Installer les dépendances | `npm ci` |
+| Lancer en développement | `npm run dev` |
+| Tests unitaires (Vitest) | `npm run test:unit` |
+| Vérifier les types | `npm run type-check` |
+| Linter (oxlint + ESLint) | `npm run lint` |
+| Construire pour la production | `npm run build` |
 
-## Type Support for `.vue` Imports in TS
+## Organisation
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+| Dossier | Contenu |
+|---|---|
+| `src/components/tree/` | Arbre Vue Flow, nœuds, panneau du script |
+| `src/composables/` | Logique réutilisable, dont la navigation par niveaux (`useTreeNavigation`) |
+| `src/fixtures/` | Données de démonstration, en attendant le branchement sur l'API |
+| `src/assets/` | Styles, dont les variables de couleur des thèmes (`tree-tokens.css`) |
