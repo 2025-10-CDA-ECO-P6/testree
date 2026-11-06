@@ -1,0 +1,18 @@
+# Fins de ligne normalisées (LF dans le repo, quel que soit l'OS)
+* text=auto
+
+# Scripts shell : toujours LF, sinon ils cassent dans Docker / Jenkins
+*.sh text eol=lf
+
+# Wrapper Maven du back : script Unix en LF, script Windows en CRLF
+mvnw text eol=lf
+*.cmd text eol=crlf
+
+# Scripts PowerShell : CRLF, comme les .cmd
+*.ps1 text eol=crlf
+
+# Binaires
+*.png binary
+*.jpg binary
+*.ico binary
+*.pdf binary

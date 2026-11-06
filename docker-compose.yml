@@ -1,0 +1,22 @@
+# Base PostgreSQL pour le développement (ADR-016, ADR-032).
+# Avant la 1re fois : copier .env.example en .env et choisir un mot de passe.
+# Démarrer : docker compose up -d · Arrêter : docker compose down (les données restent dans le volume)
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-testree}
+      POSTGRES_USER: ${POSTGRES_USER:-testree}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?copier .env.example en .env et choisir un mot de passe}
+    ports:
+      - "127.0.0.1:5432:5432" # joignable depuis ce PC seulement
+    volumes:
+      - testree-pgdata:/var/lib/postgresql # dossier de données de l'image postgres 18
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  testree-pgdata:
